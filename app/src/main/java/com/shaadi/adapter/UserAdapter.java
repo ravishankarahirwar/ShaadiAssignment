@@ -40,15 +40,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.CountryViewHol
     @Override
     public void onBindViewHolder(@NonNull CountryViewHolder countryViewHolder, int position) {
         final User user = mUsers.get(position);
-        String age = String.valueOf(user.getDob().getAge());
+        int age = user.getDob().getAge();
 
         String street = user.getLocation().getStreet();
         String city = user.getLocation().getCity();
         String state = user.getLocation().getState();
 
-        countryViewHolder.countryTitle.setText(age + "Years, " + street + " " +city + state);
-
-        String fName = null, lname;
+        String fName = null;
         if(user.getName().getFirst() != null) {
             fName = user.getName().getFirst();
             fName = capatalizedWord(fName);
@@ -56,7 +54,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.CountryViewHol
 
         String lName = user.getName().getLast() != null ? user.getName().getFirst() : "";
 
-        countryViewHolder.userName.setText(fName + " " + lName);
+        countryViewHolder.userName.setText(mContext.getString(R.string.user_name ,fName, lName));
+        countryViewHolder.countryTitle.setText(mContext.getString(R.string.user_info , age, street, city, state));
 
         Picasso.with(mContext).load(user.getPicture().getLarge())
                 .into(countryViewHolder.countryIcon);
